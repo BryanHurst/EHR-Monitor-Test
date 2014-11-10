@@ -11,6 +11,10 @@ using System.Windows.Forms;
 
 namespace EHR_Monitor_Test
 {
+    // TODO: Log the name of the window that the user has in focus when a test runs.
+    // TODO: If the focused window is the same as this window, don't allow the test to run.
+    // TODO: Attempt to log any errors coming back from the user32.dll when reading or writing text to another process.
+
     public partial class MainWindow : Form
     {
         private const int ticks = 5;  // How many seconds do we want to allow a user to find the EHR Window before attempting to poll it
@@ -161,6 +165,9 @@ namespace EHR_Monitor_Test
 
         private void runButton_Click(object sender, EventArgs e)
         {
+            this.runButton.Enabled = false;
+            this.runButton.Visible = false;
+
             switch (this.currentTestNumber)
             {
                 case 1:
@@ -183,6 +190,7 @@ namespace EHR_Monitor_Test
 
         private void ContinueCurrentTest()
         {
+            this.EnableResultButtons();
             this.currentTest();
         }
 
