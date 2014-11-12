@@ -120,6 +120,36 @@ namespace EHR_Monitor_Test
             }
         }
 
+        private void SetupTestThree()
+        {
+            this.testNumber.Text = "Test Number: 3";
+            this.testDescription.Text = "Now we need to test formatted text and see if we can successfully READ RTF from the Text Area inside the EHR Application. \r\nTo do this, YOU will need to manually insert text into the EHR Application. Please highlight and COPY the text on the left below and PASTE it into the normal working area of your EHR. It should have the same color and formatting as the text seen below. \r\n\r\nThe test will attempt to read text from the EHR Application and place it on the right side. \r\nSuccess is when the right side contains the text from the left with the same coloring and formatting.";
+
+            this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
+                                + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Three\\cf0\\ulnone\\b0\\par"
+                                + "\\cf2\\i Rich Text Test\\par"
+                                + "\\cf0\\i0 This test tests the following:\\par"
+                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Reading RTF Text from the EHR's Text Box\\par"
+                                + "}";
+ 
+        }
+
+        private void RunTestThree()
+        {
+            if (!this.warned)
+            {
+                MessageBox.Show("Please make sure you have pasted the text from the left box into your EHR Application. \nOnce you push 'Ok', you will have 5 seconds to click into your EHR's main Text Box.");
+                this.ShowTestCountdown();
+            }
+            else
+            {
+                string readRtf = EHRText.GetRTFFromActiveWindowElement();
+
+                this.theirText.Rtf = readRtf;
+            }
+        }
+
         private void PrintPossibleSuccess()
         {
             MessageBox.Show("It looks like the test was a success! \nIf you agree, please push the 'Success' button and continue.");
@@ -177,7 +207,7 @@ namespace EHR_Monitor_Test
                     RunTestTwo();
                     break;
                 case 3:
-                    //RunTestThree();
+                    RunTestThree();
                     break;
                 case 4:
                     //RunTestFour();
@@ -218,9 +248,9 @@ namespace EHR_Monitor_Test
                     break;
                 case 2:
                     this.currentTestNumber = 3;
-                    //this.currentTest = RunTestThree;
+                    this.currentTest = RunTestThree;
 
-                    //SetupTestThree();
+                    SetupTestThree();
                     break;
                 case 3:
                     this.currentTestNumber = 4;
