@@ -20,10 +20,10 @@ namespace EHR_Monitor_Test
         private const int ticks = 5;  // How many seconds do we want to allow a user to find the EHR Window before attempting to poll it
         private int currentTick = 0;
 
-        private const int numberOfTests = 4;
+        private const int numberOfTests = 6;
         private bool[] results = new bool[numberOfTests  + 1];
 
-        private int currentTestNumber = 0;  // What test are we currently on
+        private int currentTestNumber = 4;  // What test are we currently on
         private delegate void TestDelegate();
         private TestDelegate currentTest = null;
         private bool warned = false;  // Have we warned the user to move their cursor focus to the EHR window already for this test?
@@ -123,6 +123,94 @@ namespace EHR_Monitor_Test
         private void SetupTestThree()
         {
             this.testNumber.Text = "Test Number: 3";
+            this.testDescription.Text = "Next, we are going to test if we can successfully WRITE RTF to the text area inside the EHR Application. \r\nTo do this, WE will need to insert text into the EHR Application. \r\n\r\nThis test will attempt to write the text from the left side below into your EHR's Text Box. It will then read back your EHR's text and paste the read in value to the right side below. \r\nSuccess is when the right side matches the left side, AND the Text Box in the EHR Application contains the same text.";
+
+            this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
+                                + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Three\\cf0\\ulnone\\b0\\par"
+                                + "\\cf2\\i Rich Text Test\\par"
+                                + "\\cf0\\i0 This test tests the following:\\par"
+                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Writing RTF Text from the EHR's Text Box\\par"
+                                + "}";
+        }
+
+        private void RunTestThree()
+        {
+            if (!this.warned)
+            {
+                MessageBox.Show("Once you push 'Ok', you will have 5 seconds to click into your EHR's main Text Box.");
+                this.ShowTestCountdown();
+            }
+            else
+            {
+                // Write our text to the EHR via the clipboard
+                Clipboard.SetText(this.ourText.Rtf, TextDataFormat.Rtf);
+                EHRText.SetActiveWindowElementToClipboardContents();
+
+                Clipboard.Clear(); // just for sanity
+
+                // Read back the text via the clipboard (temporary until the other direct method works)
+                EHRText.SetClipboardContentsToActiveWindowElement();
+                // Set the right side text to what we read
+                this.theirText.Rtf = Clipboard.GetText(TextDataFormat.Rtf);
+
+                if (this.theirText.Rtf.Equals(this.ourText.Rtf))
+                {
+                    this.PrintPossibleSuccess();
+                }
+                else
+                {
+                    this.PrintPossibleFailure();
+                }
+            }
+        }
+
+        private void SetupTestFour()
+        {
+            this.testNumber.Text = "Test Number: 4";
+            this.testDescription.Text = "First, we are going to test if we can successfully READ RTF from the text area inside the EHR Application. \r\nTo do this, YOU need to manually insert RTF into the EHR Application. The RTF on the left side below has been copied to your clipboard. \r\nPlease open your EHR Application and PASTE the RTF into the normal working area. \r\n\r\nThe test will attempt to read RTF from the EHR Application and place it on the right side. \r\nSuccess is when the right side contains the RTF from the left.";
+
+            this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
+                                + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Four\\cf0\\ulnone\\b0\\par"
+                                + "\\cf2\\i Rich Text Test\\par"
+                                + "\\cf0\\i0 This test tests the following:\\par"
+                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Reading RTF Text from the EHR's Text Box via the Clipboard\\par"
+                                + "}";
+
+            Clipboard.SetText(this.ourText.Rtf, TextDataFormat.Rtf);
+
+        }
+
+        private void RunTestFour()
+        {
+            if (!this.warned)
+            {
+                MessageBox.Show("Once you push 'Ok', you will have 5 seconds to click into your EHR's main Text Box.");
+                this.ShowTestCountdown();
+            }
+            else
+            {
+                Clipboard.Clear(); // just for sanity
+
+                EHRText.SetClipboardContentsToActiveWindowElement();
+                // Set the right side text to what we read
+                this.theirText.Rtf = Clipboard.GetText(TextDataFormat.Rtf);
+
+                if (this.theirText.Rtf.Equals(this.ourText.Rtf))
+                {
+                    this.PrintPossibleSuccess();
+                }
+                else
+                {
+                    this.PrintPossibleFailure();
+                }
+            }
+        }
+
+        private void SetupTestFive()
+        {
+            this.testNumber.Text = "Test Number: 5";
             this.testDescription.Text = "Now we need to test formatted text and see if we can successfully READ RTF from the Text Area inside the EHR Application. \r\nTo do this, YOU will need to manually insert text into the EHR Application. Please highlight and COPY the text on the left below and PASTE it into the normal working area of your EHR. It should have the same color and formatting as the text seen below. \r\n\r\nThe test will attempt to read text from the EHR Application and place it on the right side. \r\nSuccess is when the right side contains the text from the left with the same coloring and formatting.";
 
             this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
@@ -135,7 +223,7 @@ namespace EHR_Monitor_Test
  
         }
 
-        private void RunTestThree()
+        private void RunTestFive()
         {
             if (!this.warned)
             {
@@ -210,7 +298,13 @@ namespace EHR_Monitor_Test
                     RunTestThree();
                     break;
                 case 4:
-                    //RunTestFour();
+                    RunTestFour();
+                    break;
+                case 5:
+                    RunTestFive();
+                    break;
+                case 6:
+                    //RunTestSix();
                     break;
                 default:
                     EnableRunButton();
@@ -254,9 +348,21 @@ namespace EHR_Monitor_Test
                     break;
                 case 3:
                     this.currentTestNumber = 4;
-                    //this.currentTest = RunTestFour;
+                    this.currentTest = RunTestFour;
 
-                    //SetupTestFour();
+                    SetupTestFour();
+                    break;
+                case 4:
+                    this.currentTestNumber = 5;
+                    this.currentTest = RunTestFive;
+
+                    SetupTestFive();
+                    break;
+                case 5:
+                    this.currentTestNumber = 6;
+                    //this.currentTest = RunTestSix;
+
+                    //SetupTestSix();
                     break;
                 case numberOfTests:
                     ShowResults();
