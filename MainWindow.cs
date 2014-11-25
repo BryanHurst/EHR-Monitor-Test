@@ -23,7 +23,7 @@ namespace EHR_Monitor_Test
         private const int numberOfTests = 6;
         private bool[] results = new bool[numberOfTests  + 1];
 
-        private int currentTestNumber = 4;  // What test are we currently on
+        private int currentTestNumber = 0;  // What test are we currently on
         private delegate void TestDelegate();
         private TestDelegate currentTest = null;
         private bool warned = false;  // Have we warned the user to move their cursor focus to the EHR window already for this test?
