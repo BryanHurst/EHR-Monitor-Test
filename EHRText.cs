@@ -50,10 +50,10 @@ namespace EHR_Monitor_Test
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private class EDITSTREAM
+        private struct EDITSTREAM
         {
             public MemoryStream dwCookie;
-            public uint dwError;
+            public int dwError;
             public EditStreamCallback pfnCallback;
         }
 
