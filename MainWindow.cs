@@ -23,7 +23,7 @@ namespace EHR_Monitor_Test
         private const int numberOfTests = 6;
         private bool[] results = new bool[numberOfTests  + 1];
 
-        private int currentTestNumber = 2;  // What test are we currently on
+        private int currentTestNumber = 0;  // What test are we currently on
         private delegate void TestDelegate();
         private TestDelegate currentTest = null;
         private bool warned = false;  // Have we warned the user to move their cursor focus to the EHR window already for this test?
@@ -127,7 +127,7 @@ namespace EHR_Monitor_Test
 
             this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
                                 + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
-                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Four\\cf0\\ulnone\\b0\\par"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Three\\cf0\\ulnone\\b0\\par"
                                 + "\\cf2\\i Rich Text Test\\par"
                                 + "\\cf0\\i0 This test tests the following:\\par"
                                 + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Reading RTF Text from the EHR's Text Box via the Clipboard\\par"
@@ -170,10 +170,10 @@ namespace EHR_Monitor_Test
 
             this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
                                 + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
-                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Three\\cf0\\ulnone\\b0\\par"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Four\\cf0\\ulnone\\b0\\par"
                                 + "\\cf2\\i Rich Text Test\\par"
                                 + "\\cf0\\i0 This test tests the following:\\par"
-                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Writing RTF Text from the EHR's Text Box\\par"
+                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Writing RTF Text to the EHR's Text Box\\par"
                                 + "}";
         }
 
@@ -215,7 +215,7 @@ namespace EHR_Monitor_Test
 
             this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
                                 + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
-                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Three\\cf0\\ulnone\\b0\\par"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Five\\cf0\\ulnone\\b0\\par"
                                 + "\\cf2\\i Rich Text Test\\par"
                                 + "\\cf0\\i0 This test tests the following:\\par"
                                 + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Reading RTF Text from the EHR's Text Box via the Windows API\\par"
@@ -241,6 +241,49 @@ namespace EHR_Monitor_Test
             }
         }
 
+        private void SetupTestSix()
+        {
+            this.testNumber.Text = "Test Number: 6";
+            this.testDescription.Text = "Finally we need to test a better method for WRITING RTF to the Text Area inside the EHR Application. \r\nTo do this, WE will need to insert text into the EHR Application. \r\n\r\nThis test will attempt to write the RTF from the left side below into your EHR's Text Box via the Windows API. It will then read back your EHR's text and paste the read in value to the right side below. \r\nSuccess is when the right, left side, and the EHR Application contain the same text with the same coloring and formatting.";
+
+            this.ourText.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}{\\f1\\fnil\\fcharset2 Symbol;}}"
+                                + "{\\colortbl ;\\red255\\green0\\blue0;\\red0\\green176\\blue80;}"
+                                + "{\\*\\generator Msftedit 5.41.21.2510;}\\viewkind4\\uc1\\pard\\sa200\\sl276\\slmult1\\cf1\\lang9\\ul\\b\\f0\\fs22 Test Six\\cf0\\ulnone\\b0\\par"
+                                + "\\cf2\\i Rich Text Test\\par"
+                                + "\\cf0\\i0 This test tests the following:\\par"
+                                + "\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-360\\li720\\sa200\\sl276\\slmult1 Writing RTF Text to the EHR's Text Box via the Windows API\\par"
+                                + "}";
+        }
+
+        private void RunTestSix()
+        {
+            if (!this.warned)
+            {
+                MessageBox.Show("Once you push 'Ok', you will have 5 seconds to click into your EHR's main Text Box.");
+                this.ShowTestCountdown();
+            }
+            else
+            {
+                //// Write our text to the EHR
+                //EHRText.SetTextOfActiveWindowElement(ourText.Text);
+
+                //// Read the text back from the EHR Application
+                //string readText = EHRText.GetTextFromActiveWindowElement();
+                //// Set the right side text to what we read
+                //this.theirText.Text = readText;
+
+                //if (this.theirText.Text.Equals(this.ourText.Text))
+                //{
+                //    this.PrintPossibleSuccess();
+                //}
+                //else
+                //{
+                //    this.PrintPossibleFailure();
+                //}
+                this.PrintPossibleFailure();
+            }
+        }
+
         private void PrintPossibleSuccess()
         {
             MessageBox.Show("It looks like the test was a success! \nIf you agree, please push the 'Success' button and continue.");
@@ -248,7 +291,7 @@ namespace EHR_Monitor_Test
 
         private void PrintPossibleFailure()
         {
-            MessageBox.Show("It looks like the test was a failure... \nIf you agree, please push the 'Faied' button and report the issue.");
+            MessageBox.Show("It looks like the test was a failure, HOWEVER, we do get false detection when indeed the test did pass (due to stray white spaces) \nIf you agree this test failed, please push the 'Faied' button and report the issue. \nBut if you believe the test passed, please push the 'Success' button.");
         }
 
         private void ShowTestCountdown()
@@ -307,7 +350,7 @@ namespace EHR_Monitor_Test
                     RunTestFive();
                     break;
                 case 6:
-                    //RunTestSix();
+                    RunTestSix();
                     break;
                 default:
                     EnableRunButton();
@@ -363,9 +406,9 @@ namespace EHR_Monitor_Test
                     break;
                 case 5:
                     this.currentTestNumber = 6;
-                    //this.currentTest = RunTestSix;
+                    this.currentTest = RunTestSix;
 
-                    //SetupTestSix();
+                    SetupTestSix();
                     break;
                 case numberOfTests:
                     ShowResults();
