@@ -17,6 +17,9 @@ namespace EHR_Monitor_Test
         private const uint WM_GETTEXT = 0x000D;
         private const uint WM_GETTEXTLENGTH = 0x000E;
         private const uint WM_USER = 0x0400;
+        private const uint WM_PASTE = 0x0302;
+        private const uint WM_COPY = 0x0301;
+        private const uint EM_SETSEL = 0x00B1;
         private const uint EM_STREAMOUT = WM_USER + 74;
         private const uint SF_RTF = 2;
 
@@ -37,6 +40,12 @@ namespace EHR_Monitor_Test
 
         [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, ref EDITSTREAM lParam);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, int lParam);
 
         private delegate int EditStreamCallback(MemoryStream dwCookie, IntPtr pbBuff, int cb, out int pcb);
 
@@ -136,6 +145,49 @@ namespace EHR_Monitor_Test
                 GetGUIThreadInfo(threadId, ref lpgui);
 
                 SetText(lpgui.hwndFocus, text);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+        }
+
+        public static void SetActiveWindowElementToClipboardContents()
+        {
+            try
+            {
+                IntPtr windowHWnd = GetForegroundWindow();
+                IntPtr lpdwProcessId;
+                IntPtr threadId = GetWindowThreadProcessId(windowHWnd, out lpdwProcessId);
+
+                GUITHREADINFO lpgui = new GUITHREADINFO();
+                lpgui.cbSize = Marshal.SizeOf(lpgui);
+
+                GetGUIThreadInfo(threadId, ref lpgui);
+
+                SetText(lpgui.hwndFocus, "\0"); // empty the target before pasting
+                SendMessage(lpgui.hwndFocus, WM_PASTE, 0, 0);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+        }
+
+        public static void SetClipboardContentsToActiveWindowElement()
+        {
+            try
+            {
+                IntPtr windowHWnd = GetForegroundWindow();
+                IntPtr lpdwProcessId;
+                IntPtr threadId = GetWindowThreadProcessId(windowHWnd, out lpdwProcessId);
+
+                GUITHREADINFO lpgui = new GUITHREADINFO();
+                lpgui.cbSize = Marshal.SizeOf(lpgui);
+
+                GetGUIThreadInfo(threadId, ref lpgui);
+                SendMessage(lpgui.hwndFocus, EM_SETSEL, 0, -1);
+                SendMessage(lpgui.hwndFocus, WM_COPY, 0, 0);
             }
             catch (Exception e)
             {
