@@ -42,9 +42,6 @@ namespace EHR_Monitor_Test
         private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, ref EDITSTREAM lParam);
 
         [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
-
-        [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, uint wParam, int lParam);
 
         private delegate int EditStreamCallback(MemoryStream dwCookie, IntPtr pbBuff, int cb, out int pcb);
