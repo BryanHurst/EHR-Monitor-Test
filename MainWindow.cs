@@ -430,7 +430,7 @@ namespace EHR_Monitor_Test
             this.testNumber.Text = "Test Number: Done";
             this.testDescription.Text = "Thank you for running all of our tests. \r\nPlease report back the below results.";
 
-            this.ourText.Text = "Results: \r\n\r\n" + this.results.ToString();
+            this.ourText.Text = "Results: \r\n\r\n" + String.Join(", ", this.results);
 
             if (Array.TrueForAll(this.results, IsSuccess))
             {
